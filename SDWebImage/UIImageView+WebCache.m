@@ -368,13 +368,13 @@ static char TAG_ACTIVITY_SHOW;
                 img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
                 dispatch_main_sync_safe(^{
                     if (!wself) return;
-                    if (image && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
+                    if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
                     {
-                        completedBlock(image, error, cacheType, url);
+                        completedBlock(img, error, cacheType, url);
                         return;
                     }
-                    else if (image) {
-                        wself.image = image;
+                    else if (img) {
+                        wself.image = img;
                         [wself setNeedsLayout];
                     } else {
                         if ((options & SDWebImageDelayPlaceholder)) {
@@ -383,7 +383,7 @@ static char TAG_ACTIVITY_SHOW;
                         }
                     }
                     if (completedBlock && finished) {
-                        completedBlock(image, error, cacheType, url);
+                        completedBlock(img, error, cacheType, url);
                     }
                 });
             });
