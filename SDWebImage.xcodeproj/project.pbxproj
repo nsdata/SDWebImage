@@ -54,7 +54,7 @@
 		00733A711BC4880E00A5A117 /* UIImageView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 53922D95148C56230056699D /* UIImageView+WebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00733A721BC4880E00A5A117 /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = AB615301192DA24600A2D8E9 /* UIView+WebCacheOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00733A731BC4880E00A5A117 /* WebImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A2CAE031AB4BB5400B6BC39 /* WebImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		152E3CD31CFED58900A0AD99 /* UIImage+ResizeMagick.h in Headers */ = {isa = PBXBuildFile; fileRef = 152E3CD11CFED58900A0AD99 /* UIImage+ResizeMagick.h */; };
+		152E3CD31CFED58900A0AD99 /* UIImage+ResizeMagick.h in Headers */ = {isa = PBXBuildFile; fileRef = 152E3CD11CFED58900A0AD99 /* UIImage+ResizeMagick.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		152E3CD41CFED58900A0AD99 /* UIImage+ResizeMagick.m in Sources */ = {isa = PBXBuildFile; fileRef = 152E3CD21CFED58900A0AD99 /* UIImage+ResizeMagick.m */; };
 		4A2CAE041AB4BB5400B6BC39 /* WebImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A2CAE031AB4BB5400B6BC39 /* WebImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A2CAE181AB4BB6400B6BC39 /* SDWebImageCompat.h in Headers */ = {isa = PBXBuildFile; fileRef = 53922D88148C56230056699D /* SDWebImageCompat.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -787,10 +787,10 @@
 				53761319155AD0D5005750A4 /* SDWebImageDecoder.h in Headers */,
 				5376131A155AD0D5005750A4 /* SDWebImageDownloader.h in Headers */,
 				5376131C155AD0D5005750A4 /* SDWebImageManager.h in Headers */,
-				152E3CD31CFED58900A0AD99 /* UIImage+ResizeMagick.h in Headers */,
 				5376131E155AD0D5005750A4 /* SDWebImagePrefetcher.h in Headers */,
 				5376131F155AD0D5005750A4 /* UIButton+WebCache.h in Headers */,
 				53761320155AD0D5005750A4 /* UIImageView+WebCache.h in Headers */,
+				152E3CD31CFED58900A0AD99 /* UIImage+ResizeMagick.h in Headers */,
 				530E49E816464C25002868E7 /* SDWebImageOperation.h in Headers */,
 				530E49EA16464C7C002868E7 /* SDWebImageDownloaderOperation.h in Headers */,
 				ABBE71A718C43B4D00B75E91 /* UIImageView+HighlightedWebCache.h in Headers */,
