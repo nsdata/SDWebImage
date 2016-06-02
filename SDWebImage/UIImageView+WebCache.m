@@ -365,7 +365,17 @@ static char TAG_ACTIVITY_SHOW;
             
             __block UIImage *img = nil;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
+                
+                if (size.width == 0 || size.height == 0) {
+                    return;
+                }
+                
+                if (size.width/size.height == image.size.width/image.size.height) {
+                    img = image;
+                } else {
+                    img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
+                }
+                
                 dispatch_main_sync_safe(^{
                     if (!wself) return;
                     if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
