@@ -376,25 +376,27 @@ static char TAG_ACTIVITY_SHOW;
                     img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
                 }
                 
-                dispatch_main_sync_safe(^{
-                    if (!wself) return;
-                    if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
-                    {
-                        completedBlock(img, error, cacheType, url);
-                        return;
-                    }
-                    else if (img) {
-                        wself.image = img;
-                        [wself setNeedsLayout];
-                    } else {
-                        if ((options & SDWebImageDelayPlaceholder)) {
-                            wself.image = placeholder;
-                            [wself setNeedsLayout];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    dispatch_main_async_safe(^{
+                        if (!wself) return;
+                        if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
+                        {
+                            completedBlock(img, error, cacheType, url);
+                            return;
                         }
-                    }
-                    if (completedBlock && finished) {
-                        completedBlock(img, error, cacheType, url);
-                    }
+                        else if (img) {
+                            wself.image = img;
+                            [wself setNeedsLayout];
+                        } else {
+                            if ((options & SDWebImageDelayPlaceholder)) {
+                                wself.image = placeholder;
+                                [wself setNeedsLayout];
+                            }
+                        }
+                        if (completedBlock && finished) {
+                            completedBlock(img, error, cacheType, url);
+                        }
+                    });
                 });
             });
 
