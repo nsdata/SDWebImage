@@ -341,6 +341,10 @@ static char TAG_ACTIVITY_SHOW;
     [self sd_setAnimationImagesWithURLs:arrayOfURLs];
 }
 
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:    (CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:size after:0 completed:completedBlock];
+}
+
 - (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(int64_t)delta completed:(SDWebImageCompletionBlock)completedBlock {
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
