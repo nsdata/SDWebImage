@@ -341,7 +341,7 @@ static char TAG_ACTIVITY_SHOW;
     [self sd_setAnimationImagesWithURLs:arrayOfURLs];
 }
 
-- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(int64_t)delta completed:(SDWebImageCompletionBlock)completedBlock {
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     __weak __typeof(self)wself = self;
@@ -376,7 +376,7 @@ static char TAG_ACTIVITY_SHOW;
                     img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
                 }
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delta)), dispatch_get_main_queue(), ^{
                     dispatch_main_async_safe(^{
                         if (!wself) return;
                         if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
