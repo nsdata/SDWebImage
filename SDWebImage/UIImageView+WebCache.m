@@ -348,7 +348,7 @@ static char TAG_ACTIVITY_SHOW;
 - (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock {
     if (delta == 0) {
         if (![SDWebImageManager.sharedManager cachedImageExistsForURL:url]) {
-            delta = 0.2;
+            delta = 0.7;
         }
     }
     
