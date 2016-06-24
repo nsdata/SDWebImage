@@ -397,7 +397,7 @@ static char TAG_ACTIVITY_SHOW;
                         else if (img) {
                             [UIView transitionWithView:wself
                                               duration:delta
-                                               options:UIViewAnimationOptionTransitionCrossDissolve
+                                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
                                             animations:^{[wself setImage:img];}
                                             completion:NULL];
                             
