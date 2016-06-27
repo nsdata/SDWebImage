@@ -380,7 +380,7 @@ static char TAG_ACTIVITY_SHOW;
                     return;
                 }
                 
-                if (size.width/size.height == image.size.width/image.size.height) {
+                if ((size.width/size.height == image.size.width/image.size.height) || (size == nil)) {
                     img = image;
                 } else {
                     img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
