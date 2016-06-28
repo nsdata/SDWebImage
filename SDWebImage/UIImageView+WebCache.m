@@ -341,11 +341,19 @@ static char TAG_ACTIVITY_SHOW;
     [self sd_setAnimationImagesWithURLs:arrayOfURLs];
 }
 
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:CGSizeMake(1, 1) after:delta completed:completedBlock needResize:NO];
+}
+
 - (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:    (CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
     [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:size after:0 completed:completedBlock];
 }
 
 - (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:size after:delta completed:completedBlock needResize:YES];
+}
+
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock needResize:(BOOL)need {
     if (delta == 0) {
         if (![SDWebImageManager.sharedManager cachedImageExistsForURL:url]) {
             delta = 0.7;
@@ -380,7 +388,8 @@ static char TAG_ACTIVITY_SHOW;
                     return;
                 }
                 
-                if (size.width/size.height == image.size.width/image.size.height) {
+                if ((size.width/size.height == image.size.width/image.size.height) ||
+                    (need == NO)) {
                     img = image;
                 } else {
                     img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
