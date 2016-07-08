@@ -61,6 +61,7 @@
     if (self.cacheKeyFilter) {
         return self.cacheKeyFilter(url);
     } else {
+<<<<<<< HEAD
         if (NSClassFromString(@"NSURLComponents") && [NSURLComponents instancesRespondToSelector:@selector(string)]) {
             NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
             urlComponents.query = nil; // Strip out query parameters.
@@ -68,6 +69,9 @@
         } else {
             return [url absoluteString];
         }
+=======
+        return [url absoluteString];
+>>>>>>> tonysd
     }
 }
 
