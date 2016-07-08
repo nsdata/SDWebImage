@@ -26,7 +26,7 @@
     NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
     if ([imageContentType isEqualToString:@"image/gif"]) {
 //        image = [UIImage sd_animatedGIFWithData:data];
-        if (data.length/1024 > 128) {
+        if (data.length/1024 > 512) {
             image = [self compressImageWith:image];
         }
         
@@ -39,7 +39,7 @@
 #endif
     else {
         image = [[UIImage alloc] initWithData:data];
-        if (data.length/1024 > 128) {
+        if (data.length/1024 > 512) {
             image = [self compressImageWith:image];
         }
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];

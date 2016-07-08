@@ -213,5 +213,7 @@
 - (void)cancelCurrentArrayLoad __deprecated_msg("Use `sd_cancelCurrentAnimationImagesLoad`");
 
 - (void)cancelCurrentImageLoad __deprecated_msg("Use `sd_cancelCurrentImageLoad`");
-- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size completed:(SDWebImageCompletionBlock)completedBlock;
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock;
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:    (CGSize)size completed:(SDWebImageCompletionBlock)completedBlock;
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock;
 @end

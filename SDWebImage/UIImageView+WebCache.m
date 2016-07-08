@@ -345,11 +345,29 @@ static char TAG_ACTIVITY_SHOW;
     [self sd_setAnimationImagesWithURLs:arrayOfURLs];
 }
 
-- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:CGSizeMake(1, 1) after:delta completed:completedBlock needResize:NO];
+}
+
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:    (CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:size after:0 completed:completedBlock];
+}
+
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock {
+    [self rm_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock reSize:size after:delta completed:completedBlock needResize:YES];
+}
+
+- (void)rm_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock reSize:(CGSize)size after:(NSTimeInterval)delta completed:(SDWebImageCompletionBlock)completedBlock needResize:(BOOL)need {
+    if (delta == 0) {
+        if (![SDWebImageManager.sharedManager cachedImageExistsForURL:url]) {
+            delta = 0.7;
+        }
+    }
+    
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     __weak __typeof(self)wself = self;
-
+    
     if (!(options & SDWebImageDelayPlaceholder)) {
         dispatch_main_async_safe(^{
             wself.image = placeholder;
@@ -374,34 +392,42 @@ static char TAG_ACTIVITY_SHOW;
                     return;
                 }
                 
-                if (size.width/size.height == image.size.width/image.size.height) {
+                if ((size.width/size.height == image.size.width/image.size.height) ||
+                    (need == NO)) {
                     img = image;
                 } else {
                     img = [image resizedImageByMagick:[NSString stringWithFormat:@"%fx%f#",size.width, size.height]];
                 }
                 
-                dispatch_main_sync_safe(^{
-                    if (!wself) return;
-                    if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
-                    {
-                        completedBlock(img, error, cacheType, url);
-                        return;
-                    }
-                    else if (img) {
-                        wself.image = img;
-                        [wself setNeedsLayout];
-                    } else {
-                        if ((options & SDWebImageDelayPlaceholder)) {
-                            wself.image = placeholder;
-                            [wself setNeedsLayout];
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delta)), dispatch_get_main_queue(), ^{
+                    dispatch_main_async_safe(^{
+                        if (!wself) return;
+                        if (img && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
+                        {
+                            completedBlock(img, error, cacheType, url);
+                            return;
                         }
-                    }
-                    if (completedBlock && finished) {
-                        completedBlock(img, error, cacheType, url);
-                    }
+                        else if (img) {
+                            [UIView transitionWithView:wself
+                                              duration:delta
+                                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
+                                            animations:^{[wself setImage:img];}
+                                            completion:NULL];
+                            
+                            [wself setNeedsLayout];
+                        } else {
+                            if ((options & SDWebImageDelayPlaceholder)) {
+                                wself.image = placeholder;
+                                [wself setNeedsLayout];
+                            }
+                        }
+                        if (completedBlock && finished) {
+                            completedBlock(img, error, cacheType, url);
+                        }
+                    });
                 });
-            });
-
+//            });
+            
         }];
         
         [self sd_setImageLoadOperation:operation forKey:@"UIImageViewImageLoad"];
@@ -415,5 +441,6 @@ static char TAG_ACTIVITY_SHOW;
         });
     }
 }
+
 
 @end
