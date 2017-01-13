@@ -25,7 +25,7 @@
     UIImage *image;
     NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
     if ([imageContentType isEqualToString:@"image/gif"]) {
-//        image = [UIImage sd_animatedGIFWithData:data];
+        image = [UIImage sd_animatedGIFWithData:data];
         if (data.length/1024 > 512) {
             image = [self compressImageWith:image];
         }
